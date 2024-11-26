@@ -1,5 +1,9 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import font
+
+fuente_personalizada =("monserrat", 12, "italic")
+fuente_personalizada2=("open sans", 10, "italic")
 
 class Paciente:
     def __init__(self, sexo="", raza="", creatinina=0.0, albumina=0.0, tfg=0.0, diagnostico=""):
@@ -28,25 +32,31 @@ class Ventana(Frame):
             self.frame_actual.destroy()
         self.frame_actual = nuevo_frame
         self.frame_actual.pack(fill=BOTH, expand=True, padx=10, pady=10)
+        
+        
 
     def cargar_inicio(self):
+        fuente_personalizada =("monserrat", 12, "italic")
         frame_inicio = Frame(self.root, bg="#f5f5f5")
         texto_largo = (
             "Este programa está diseñado para ayudar a personas sin conocimiento "
             "médico o recursos para consultas, a determinar posibles riesgos de insuficiencia renal.\n\n"
             "**Advertencia:** Este programa no reemplaza una consulta médica profesional."
         )
+        
 
-        Label(frame_inicio, text="Diagnóstico de Insuficiencia Renal Crónica", font=("Comic Sans ", 16, "bold"), bg="#f5f5f5").pack(pady=10)
-        Label(frame_inicio, text=texto_largo, font=("Comic Sans ", 12), bg="#f5f5f5", wraplength=600, justify="left").pack(pady=20)
 
-        Button(frame_inicio, text="Iniciar programa", font=("Comic Sans ", 14), command=self.cargar_riesgos, bg="#007BFF", fg="white", relief=RAISED, padx=10, pady=5).pack(pady=20)
+
+        Label(frame_inicio, text="Diagnóstico de Insuficiencia Renal Crónica", font=("Roboto",12), bg="#f5f5f5").pack(pady=10)
+        Label(frame_inicio, text=texto_largo, font=("roboto ",12), bg="#f5f5f5", wraplength=600, justify="left").pack(pady=20)
+
+        Button(frame_inicio, text="Iniciar programa", font=("Roboto",12), command=self.cargar_riesgos, bg="#007BFF", fg="white", relief=RAISED, padx=10, pady=5).pack(pady=20)
 
         self.cambiar_frame(frame_inicio)
 
     def cargar_riesgos(self):
         frame_riesgos = Frame(self.root, bg="#f5f5f5")
-        Label(frame_riesgos, text="Seleccione las opciones de riesgo:", font=("Comic Sans ", 14, "bold"), bg="#f5f5f5").pack(pady=10)
+        Label(frame_riesgos, text="Seleccione las opciones de riesgo:", font=(fuente_personalizada), bg="#f5f5f5").pack(pady=10)
 
         opciones_frame = Frame(frame_riesgos, bg="#f5f5f5")
         opciones_frame.pack()
@@ -61,17 +71,19 @@ class Ventana(Frame):
             "Tengo algún familiar con insuficiencia renal", "Padezco de hematuria",
             "Alguna vez me han transplantado un riñón", "Soy de tez negra", "No me identifico con ninguna de las anteriores"
         ]
+        
+        Label(font=fuente_personalizada2)
 
         for i, texto in enumerate(self.opciones_texto):
-            Checkbutton(opciones_frame, text=texto, variable=self.opciones_riesgos[i], bg="#f5f5f5", anchor="w", justify="left").grid(row=i // 2, column=i % 2, padx=5, pady=2, sticky=W)
+            Checkbutton(opciones_frame, text=texto, font=("Roboto",11),variable=self.opciones_riesgos[i], bg="#f5f5f5", anchor="w", justify="left").grid(row=i // 2, column=i % 2, padx=5, pady=2, sticky=W)
 
         boton_frame = Frame(frame_riesgos, bg="#f5f5f5")
         boton_frame.pack(pady=10)
 
-        self.boton_sintomas = Button(boton_frame, text="Siguiente", state=DISABLED, command=self.cargar_sintomas, bg="#28a745", fg="white", padx=10, pady=5)
+        self.boton_sintomas = Button(boton_frame, text="Siguiente",font=("Roboto",12), state=DISABLED, command=self.cargar_sintomas, bg="#28a745", fg="white", padx=10, pady=5)
         self.boton_sintomas.pack(side=LEFT, padx=5)
 
-        Button(boton_frame, text="Volver", command=self.cargar_inicio, bg="#dc3545", fg="white", padx=10, pady=5).pack(side=LEFT, padx=5)
+        Button(boton_frame, text="Volver",font=("Roboto",12), command=self.cargar_inicio, bg="#dc3545", fg="white", padx=10, pady=5).pack(side=LEFT, padx=5)
 
         self.cambiar_frame(frame_riesgos)
         self.verificar_seleccion_riesgos()
@@ -88,7 +100,7 @@ class Ventana(Frame):
 
     def cargar_sintomas(self):
         frame_sintomas = Frame(self.root, bg="#f5f5f5")
-        Label(frame_sintomas, text="Seleccione los síntomas:", font=("Comic Sans ", 14, "bold"), bg="#f5f5f5").pack(pady=10)
+        Label(frame_sintomas, text="Seleccione los síntomas:", font=("Roboto",12), bg="#f5f5f5").pack(pady=10)
 
         self.opciones_sintomas = [IntVar() for _ in range(7)]
         self.sintomas_texto = [
@@ -96,14 +108,14 @@ class Ventana(Frame):
             "Sensación de asfixia", "Fatiga", "Desorientación", "Náuseas",
             "No tengo ninguno de los síntomas anteriores"
         ]
-
+        Label(text=self.sintomas_texto, font=("Roboto",12))
         for i, texto in enumerate(self.sintomas_texto):
-            Checkbutton(frame_sintomas, text=texto, variable=self.opciones_sintomas[i],command=self.verificar_seleccion_sintomas, bg="#f5f5f5", anchor="w").pack(anchor=W, padx=20)
+            Checkbutton(frame_sintomas, text=texto,font=("Roboto",11), variable=self.opciones_sintomas[i],command=self.verificar_seleccion_sintomas, bg="#f5f5f5", anchor="w").pack(anchor=W, padx=20)
 
         boton_frame = Frame(frame_sintomas, bg="#f5f5f5")
         boton_frame.pack(pady=10)
 
-        self.boton_diagnostico = Button(boton_frame, text="Diagnóstico", state=DISABLED, command=self.abrir_ventana_secundaria, bg="#28a745", fg="white", padx=10, pady=5)
+        self.boton_diagnostico = Button(boton_frame, text="Diagnóstico", font=("Lato", 10, "bold"),state=DISABLED, command=self.abrir_ventana_secundaria, bg="#28a745", fg="white", padx=10, pady=5)
         self.boton_diagnostico.pack(side=LEFT, padx=5)
 
         Button(boton_frame, text="Volver", command=self.cargar_riesgos, bg="#dc3545", fg="white", padx=10, pady=5).pack(side=LEFT, padx=5)
@@ -136,7 +148,7 @@ class Ventana(Frame):
 class VentanaSecundaria(Frame):
 
     def __init__(self, master, seleccionados, seleccionadosr):
-        super().__init__(master, width=820, height=460, bg="#d2f4f5")
+        super().__init__(master, width=820, height=460, bg="#8fcef2")
         self.master = master
         self.pack()
         self.paciente = Paciente()
@@ -150,8 +162,8 @@ class VentanaSecundaria(Frame):
         self.ventana_nombre = Frame(self, width=695, height=40, bg="white", highlightthickness=2, highlightcolor="#939393")
         self.ventana_nombre.place(x=60, y=5)
 
-        self.lbl_nombre = Label(self.ventana_nombre, text='"Nefromatic"', font=("Comic Sans ", 14, "bold"), bg="White")
-        self.lbl_nombre.place(x=250, y=5)
+        self.lbl_nombre = Label(self.ventana_nombre, text='"Nefromatic"', font=("Dm sans", 14, "italic"), bg="White")
+        self.lbl_nombre.place(x=300, y=5)
 
     def obtener_datos(self):
         try:
@@ -252,68 +264,68 @@ class VentanaSecundaria(Frame):
         self.ventana_formulario = Frame(self, width=555, height=400, bg="white", highlightthickness=2, highlightcolor="#939393")
         self.ventana_formulario.place(x=250, y=50)
 
-        self.lbl0 = Label(self.ventana_formulario, text= "Cálculo de la tasa de filtrado glomerular y\nel cociente de albumina/creatinina", font= ("Comic Sans ", 11, "bold"), bg= "#8ed6d8")
+        self.lbl0 = Label(self.ventana_formulario, text= "Cálculo de la tasa de filtrado glomerular y\nel cociente de albumina/creatinina", font= ("Open Sans", 10, "bold"), bg= "#cbe6f5")
         self.lbl0.place(x= 117, y= 0, width= 320, height= 40)
 
         self.lbl = Label(self.ventana_formulario, text= "Ingrese los datos correspondientes en cada apartado:",bg="white")
         self.lbl.place(x= 20, y= 45, width= 300, height= 32)
 
-        Label(self.ventana_formulario, text="Edad:", bg="#8ed6d8").place(x=20, y=80, width=80, height=25)
+        Label(self.ventana_formulario, text="Edad:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=80, width=80, height=25)
         self.txt_edad = Entry(self.ventana_formulario, bg="#e4edff")
         self.txt_edad.place(x=120, y=80, width=150, height=25)
 
-        Label(self.ventana_formulario, text="Sexo:", bg="#8ed6d8").place(x=20, y=120, width=80, height=25)
+        Label(self.ventana_formulario, text="Sexo:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=120, width=80, height=25)
         opciones_sexo = ["Femenino", "Masculino"]
         self.var_sexo = StringVar()
         self.combobox_sexo = ttk.Combobox(self.ventana_formulario, textvariable=self.var_sexo, values=opciones_sexo, state="readonly")
         self.combobox_sexo.place(x=120, y=120, width=150, height=25)
         self.combobox_sexo.set("Seleccione")
         
-        Label(self.ventana_formulario, text="Raza:", bg="#8ed6d8").place(x=20, y=160, width=80, height=25)
+        Label(self.ventana_formulario, text="Raza:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=160, width=80, height=25)
         self.txt_raza = Entry(self.ventana_formulario, bg="#e4edff")
         self.txt_raza.place(x=120, y=160, width=150, height=25)
 
-        Label(self.ventana_formulario, text="Creatinina:", bg="#8ed6d8").place(x=20, y=200, width=80, height=25)
+        Label(self.ventana_formulario, text="Creatinina:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=200, width=80, height=25)
         self.txt_creatinina = Entry(self.ventana_formulario, bg="#e4edff")
         self.txt_creatinina.place(x=120, y=200, width=150, height=25)
 
-        Label(self.ventana_formulario, text="Albumina:", bg="#8ed6d8").place(x=20, y=240, width=80, height=25)
+        Label(self.ventana_formulario, text="Albumina:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=240, width=80, height=25)
         self.txt_albumina = Entry(self.ventana_formulario, bg="#e4edff")
         self.txt_albumina.place(x=120, y=240, width=150, height=25)
 
-        self.TFG = Label(self.ventana_formulario, text="TFG:", font=("Comic Sans ", 11, "bold"), bg="white")
+        self.TFG = Label(self.ventana_formulario, text="TFG:", font=("Roboto",12), bg="white")
         self.TFG.place(x=20, y=320)
-        self.resultado_TFG = Label(self.ventana_formulario, text="", font=("Comic Sans ", 11, "bold"), bg="white")
+        self.resultado_TFG = Label(self.ventana_formulario, text="", font=("Roboto",12), bg="white")
         self.resultado_TFG.place(x=60, y=320)
 
-        self.ACR = Label(self.ventana_formulario, text="CAC:", font=("Comic Sans ", 11, "bold"), bg="white")
+        self.ACR = Label(self.ventana_formulario, text="CAC:", font=("Roboto",12), bg="white")
         self.ACR.place(x=20, y=350)
-        self.resultado_ACR = Label(self.ventana_formulario, text="", font=("Comic Sans ", 11, "bold"), bg="white")
+        self.resultado_ACR = Label(self.ventana_formulario, text="", font=("Roboto",12), bg="white")
         self.resultado_ACR.place(x=60, y=350)
 
-        Button(self.ventana_formulario, text="Calcular", command=self.obtener_datos, bg="#8ed6d8").place(x=170, y=280, width=100, height=30)
+        Button(self.ventana_formulario, text="Calcular", command=self.obtener_datos, bg="#cbe6f5").place(x=170, y=280, width=100, height=30)
 
         self.ventana_formulario = Frame(self, width=250, height=500, bg="white")
         self.ventana_formulario.place(x=600, y=100)
 
-        Label(self.ventana_formulario, text="Clasificación", font=("Comic Sans ", 12, "bold"), bg="white").pack(pady=10)
+        Label(self.ventana_formulario, text="Clasificación", font=("monserrat ", 12, "bold"), bg="white").pack(pady=10)
 
-        self.lbl_categoria = Label(self.ventana_formulario, text="", font=("Comic Sans ", 10), bg="white")
+        self.lbl_categoria = Label(self.ventana_formulario, text="", font=("monserrat ", 10), bg="white")
         self.lbl_categoria.pack(padx=0, pady=10)
 
-        self.lbl_descripcion = Label(self.ventana_formulario, text="", font=("Comic Sans ", 10), bg="white", wraplength=200)
+        self.lbl_descripcion = Label(self.ventana_formulario, text="", font=("monserrat ", 10), bg="white", wraplength=200)
         self.lbl_descripcion.pack(padx=0, pady=10)
 
-        self.btn_notas = Button(self, text= "?", command=self.mostrar_notas)
+        self.btn_notas = Button(self, text= "!", command=self.mostrar_notas)
         self.btn_notas.place(x= 765, y= 80, width= 25, height= 25)
 
     def mostrar_notas(self):
         ventana_notas = Toplevel(self)
         ventana_notas.title("Notas")
         ventana_notas.geometry("400x200")
-        ventana_notas.config(bg= "#d2f4f5")
+        ventana_notas.config(bg= "#8fcef2")
 
-        texto_notas = Text(ventana_notas, wrap= "word", bg= "#e4edff", font=("Comic Sans ", 10))
+        texto_notas = Text(ventana_notas, wrap= "word", bg= "#e4edff", font=("monserrat ", 10))
         texto_notas.insert("1.0", "Nota: La creatinina en sangre también puede ser llamada creatinina sérica, creatinina, en suero, o creatinina en plasma.\n\n")
         texto_notas.insert("2.0", "Nota: La creatinina en sangre debe ser ingresada usando miligramos por decilitro de sangre (mg/dL).")
         texto_notas.config(state="disabled")
@@ -323,24 +335,24 @@ class VentanaSecundaria(Frame):
         self.ventana_riesgo = Frame(self, width=235, height=235, bg= "white", highlightthickness=2, highlightcolor= "#939393")
         self.ventana_riesgo.place(x= 10, y= 50)
 
-        self.lbl_riesgo = Label(self.ventana_riesgo, text= "Factores de Riesgo", font=("Comic Sans ", 10, "bold"), bg= "White")
+        self.lbl_riesgo = Label(self.ventana_riesgo, text= "Factores de Riesgo", font=("monserrat ", 10, "bold"), bg= "White")
         self.lbl_riesgo.place(x= 20, y= 2)
 
         # Mostrar los factires de riesgo seleccionados en un Label
         sintomas_texto = "\n".join(seleccionadosr)  # Convertir la lista de factores a una cadena
-        self.lbl_factores_riesgo = Label(self.ventana_riesgo, text=f"\n{sintomas_texto}\n", bg="White", font=("Comic Sans ", 7), anchor="w", justify="left")
+        self.lbl_factores_riesgo = Label(self.ventana_riesgo, text=f"\n{sintomas_texto}\n", bg="White", font=("monserrat ", 7), anchor="w", justify="left")
         self.lbl_factores_riesgo.place(x= 10, y= 22)
 
     def ventana_sintomas(self, seleccionados):
         self.ventana_riesgo = Frame(self, width=235, height=160, bg="white", highlightthickness=2, highlightcolor="#939393")
         self.ventana_riesgo.place(x= 10, y= 290)
 
-        self.lbl_riesgo = Label(self.ventana_riesgo, text="Síntomas", font=("Comic Sans ", 10, "bold"), bg="White")
+        self.lbl_riesgo = Label(self.ventana_riesgo, text="Síntomas", font=("monserrat ", 10, "bold"), bg="White")
         self.lbl_riesgo.place(x= 20, y= 2)
 
         # Mostrar los síntomas seleccionados en un Label
         sintomas_texto = "\n".join(seleccionados)  # Convertir la lista de síntomas a una cadena
-        self.lbl_sintomas = Label(self.ventana_riesgo, text=f"\n{sintomas_texto}", bg="White", font=("Comic Sans ", 7), anchor="w", justify="left")
+        self.lbl_sintomas = Label(self.ventana_riesgo, text=f"\n{sintomas_texto}", bg="White", font=("monserrat ", 7), anchor="w", justify="left")
         self.lbl_sintomas.place(x= 10, y= 22)
 
 
@@ -350,3 +362,4 @@ programa = Ventana(root)
 
 # Bucle de la ventana principal
 programa.mainloop()
+
