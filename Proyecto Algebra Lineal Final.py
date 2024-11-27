@@ -49,9 +49,11 @@ class Ventana(Frame):
 
         Label(frame_inicio, text="Diagnóstico de Insuficiencia Renal Crónica", font=("Roboto",12), bg="#f5f5f5").pack(pady=10)
         Label(frame_inicio, text=texto_largo, font=("roboto ",12), bg="#f5f5f5", wraplength=600, justify="left").pack(pady=20)
-
         Button(frame_inicio, text="Iniciar programa", font=("Roboto",12), command=self.cargar_riesgos, bg="#007BFF", fg="white", relief=RAISED, padx=10, pady=5).pack(pady=20)
-
+        self.imagenInicio = PhotoImage(file="Doctores.png").subsample(3,3)
+        fondo = Label(root, image=self.imagenInicio).place(x=30,y=220,width="250",height="250")
+        self.imagenInicio2 = PhotoImage(file="Dr_animado.png").subsample(3,3)
+        fondo = Label(root, image=self.imagenInicio2).place(x=520,y=220,width="250",height="250")
         self.cambiar_frame(frame_inicio)
 
     def cargar_riesgos(self):
