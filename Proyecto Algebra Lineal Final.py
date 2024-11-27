@@ -168,7 +168,7 @@ class VentanaSecundaria(Frame):
     def obtener_datos(self):
         try:
             self.paciente.sexo = self.var_sexo.get()
-            self.paciente.raza = self.txt_raza.get()
+            self.paciente.raza = self.var_raza.get()
             self.paciente.creatinina = float(self.txt_creatinina.get())
             self.paciente.albumina = float(self.txt_albumina.get())
             self.calcular_TFG()
@@ -184,7 +184,7 @@ class VentanaSecundaria(Frame):
         raza = self.paciente.raza
         creatinina = self.paciente.creatinina
 
-        if sexo == "femenino":
+        if sexo.lower() == "femenino":
             kappa = 0.7
             alpha = -0.329
             factor_sexo = 1.018
@@ -281,9 +281,12 @@ class VentanaSecundaria(Frame):
         self.combobox_sexo.place(x=120, y=120, width=150, height=25)
         self.combobox_sexo.set("Seleccione")
         
-        Label(self.ventana_formulario, text="Raza:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=160, width=80, height=25)
-        self.txt_raza = Entry(self.ventana_formulario, bg="#e4edff")
-        self.txt_raza.place(x=120, y=160, width=150, height=25)
+        Label(self.ventana_formulario, text="Raza:", bg="#8ed6d8",font=("Roboto",12)).place(x=20, y=160, width=80, height=25)
+        opciones_raza = ["Negra", "Otra raza"]
+        self.var_raza = StringVar()
+        self.combobox_raza = ttk.Combobox(self.ventana_formulario, textvariable=self.var_raza, values=opciones_raza, state="readonly")
+        self.combobox_raza.place(x=120, y=160, width=150, height=25)
+        self.combobox_raza.set("Seleccione")
 
         Label(self.ventana_formulario, text="Creatinina:", bg="#cbe6f5",font=("Roboto",12)).place(x=20, y=200, width=80, height=25)
         self.txt_creatinina = Entry(self.ventana_formulario, bg="#e4edff")
